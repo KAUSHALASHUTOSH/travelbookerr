@@ -1,3 +1,6 @@
+import os
+import sys
+import site
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -14,10 +17,10 @@ def home(request):
     if request.GET.get('destination'):
         travels = travels.filter(destination__icontains=request.GET['destination'])
 
-    # Get a list of travel option IDs the user has already booked
+    # The logic to check for existing confirmed bookings has been removed
     booked_travel_ids = []
     if request.user.is_authenticated:
-        booked_travel_ids = Booking.objects.filter(user=request.user).values_list('travel_option', flat=True)
+        pass  # This part is now empty, allowing multiple bookings
 
     context = {
         'travels': travels,
@@ -87,4 +90,3 @@ def profile(request):
     else:
         form = UserUpdateForm(instance=request.user)
     return render(request, 'profile.html', {'form': form})
-
