@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Manage Travels{% endblock %}
+
+{% block content %}
+<h2 class="text-center mb-4">Manage Travel Options</h2>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for t in travels %}
+    <div class="col">
+        <div class="card p-4">
+            <h5 class="card-title">{{ t.type }}: {{ t.source }} → {{ t.destination }}</h5>
+            <ul class="list-unstyled">
+                <li><strong>Date:</strong> {{ t.date_time }}</li>
+                <li><strong>Price:</strong> ${{ t.price }}</li>
+                <li><strong>Available Seats:</strong> {{ t.available_seats }}</li>
+            </ul>
+            <div class="mt-3 d-grid gap-2">
+                <a href="#" class="btn btn-primary">Edit</a>
+                <a href="#" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card p-5">
+            <h3 class="text-center mb-4 text-primary fw-bold">Create a new account</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-custom w-100 mt-3 py-2" type="submit">Create Account</button>
+            </form>
+            <div class="mt-3 text-center">
+                <p class="mb-0 text-muted">Already have an account? <a href="{% url 'login' %}" class="fw-bold text-decoration-none">Log in</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

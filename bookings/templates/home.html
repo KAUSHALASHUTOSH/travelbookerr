@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="text-center mt-5">
+    <h1 class="display-4 fw-bold">Welcome, {% if user.is_authenticated %}{{ user.username }}{% else %}Guest{% endif %}!</h1>
+    <p class="lead mt-3">Discover and book your next adventure with ease.</p>
+    <a href="{% url 'home' %}" class="btn btn-primary btn-lg mt-4">Browse Travel Options</a>
+</div>
+{% endblock %}

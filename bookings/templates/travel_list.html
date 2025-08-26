@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-center mb-4">Available Travel Options</h2>
+<div class="card p-4 mb-4">
+  <h5 class="card-title">Filter Options</h5>
+  <form method="get" class="row g-3 align-items-end">
+    <div class="col-md-4">
+      <label for="source" class="form-label">Source</label>
+      <input type="text" class="form-control" name="source" id="source" placeholder="Source" value="{{ request.GET.source }}">
+    </div>
+    <div class="col-md-4">
+      <label for="destination" class="form-label">Destination</label>
+      <input type="text" class="form-control" name="destination" id="destination" placeholder="Destination" value="{{ request.GET.destination }}">
+    </div>
+    <div class="col-md-2">
+      <label for="type" class="form-label">Type</label>
+      <select name="type" id="type" class="form-select">
+        <option value="">All</option>
+        <option value="Flight" {% if request.GET.type == 'Flight' %}selected{% endif %}>Flight</option>
+        <option value="Train" {% if request.GET.type == 'Train' %}selected{% endif %}>Train</option>
+        <option value="Bus" {% if request.GET.type == 'Bus' %}selected{% endif %}>Bus</option>
+      </select>
+    </div>
+    <div class="col-md-2 d-grid">
+      <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+  </form>
+</div>
+
+{% if travels %}
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+  {% for t in travels %}
+  <div class="col">
+    <div class="card h-100 p-4">
+      <h5 class="card-title">{{ t.type }} from {{ t.source }} to {{ t.destination }}</h5>
+      <ul class="list-unstyled">
+        <li><strong>Date:</strong> {{ t.date_time }}</li>
+        <li><strong>Price:</strong> ₹{{ t.price }}</li>
+        <li><strong>Available Seats:</strong> {{ t.available_seats }}</li>
+      </ul>
+      <div class="mt-auto">
+        {% if user.is_authenticated and t.travel_id in booked_travel_ids %}
+          <button class="btn btn-success w-100" disabled>Booked!</button>
+        {% elif t.available_seats > 0 %}
+          <a href="{% url 'book_travel' t.travel_id %}" class="btn btn-custom w-100">Book Now</a>
+        {% else %}
+          <button class="btn btn-secondary w-100" disabled>Sold Out</button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="text-center text-muted">No travel options found matching your criteria.</p>
+{% endif %}
+{% endblock %}

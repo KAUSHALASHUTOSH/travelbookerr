@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}My Bookings{% endblock %}
+{% block content %}
+<h2 class="text-center mb-4">Your Bookings</h2>
+{% if bookings %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for booking in bookings %}
+            <div class="col">
+                <div class="card h-100 p-4">
+                    <h5 class="card-title">{{ booking.travel_option.type }} to {{ booking.travel_option.destination }}</h5>
+                    <ul class="list-unstyled">
+                        <li><strong>From:</strong> {{ booking.travel_option.source }}</li>
+                        <li><strong>Date:</strong> {{ booking.travel_option.date_time }}</li>
+                        <li><strong>Seats:</strong> {{ booking.number_of_seats }}</li>
+                        <li><strong>Total Price:</strong> ₹{{ booking.total_price }}</li>
+                        <li><strong>Status:</strong> <span class="badge {% if booking.status == 'Confirmed' %}bg-success{% else %}bg-danger{% endif %}">{{ booking.status }}</span></li>
+                        <li><strong>Available Seats:</strong> {{ booking.travel_option.available_seats }}</li>
+                    </ul>
+                    <div class="mt-auto">
+                        {% if booking.status == 'Confirmed' %}
+                            <form method="post" action="{% url 'cancel_booking' booking.booking_id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-danger w-100" onclick="return confirm('Are you sure you want to cancel this booking?');">Cancel Booking</button>
+                            </form>
+                        {% else %}
+                            <button class="btn btn-secondary w-100" disabled>Cancelled</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="card p-4 text-center">
+        <p class="text-muted mb-0">No bookings yet. Start by exploring our <a href="{% url 'home' %}">travel options</a>.</p>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Book Trip{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card p-4 shadow">
+            <h2 class="text-center mb-4">Book Your Travel</h2>
+            <p class="text-muted text-center">
+                <strong>From:</strong> {{ travel.source }} <strong>To:</strong> {{ travel.destination }} <br>
+                <strong>Date:</strong> {{ travel.date_time }} <br>
+                <strong>Price per seat:</strong> ₹{{ travel.price }} <br>
+                <!-- Added a line to display available seats -->
+                <strong>Available Seats:</strong> {{ travel.available_seats }}
+            </p>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-custom w-100">Confirm Booking</button>
+            </form>
+            <div class="mt-3 text-center">
+                <a href="{% url 'my_bookings' %}">View My Bookings</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
