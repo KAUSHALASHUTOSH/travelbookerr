@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
+# Load environment variables from .env file for local development
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,7 +13,8 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "replace-this-with-a-strong-sec
 # Set DEBUG to False in production
 DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = []
+# Add your PythonAnywhere domain here
+ALLOWED_HOSTS = ['kaushalashutosh.pythonanywhere.com']
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -55,7 +56,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "travelbooker.wsgi.application"
 
-# 👇 DATABASE CONFIGURATION USING ENVIRONMENT VARIABLES 👇
+# 👇 MySQL CONFIGURATION FOR PRODUCTION ENVIRONMENT 👇
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
